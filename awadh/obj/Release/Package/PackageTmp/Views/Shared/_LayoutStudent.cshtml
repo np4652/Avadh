@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    @*<link href="/images/a/header_logo.png" rel="shortcut icon" />*@
+    <title>Admin | Avadh</title>
+    <link href="/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/Content/css/AdminLTE.min.css" rel="stylesheet" />
+    <link href="/Content/css/_all-skins.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        #loginClass {
+            margin-top: 2px;
+            color: #fff;
+            font-weight: 600
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <div class="logo">
+                <span class="logo-mini" id="logomini"></span>
+                <span class="logo-lg">
+                    @*<img src="/images/a/logo-1.png" id="imglogo" class="img-responsive " />*@
+                </span>
+            </div>
+            <nav class="navbar navbar-static-top">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Company Name -->
+                        <li class="dropdown tasks-menu">
+                            <a href="#" style="cursor: default; text-transform: uppercase;">
+                                <span id="spanLoginName">Student</span>
+                            </a>
+                        </li>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                
+                                <img src="/Content/Images/DefaultUser.png" id="imgDP" class="user-image ImgProfile" alt="User Image" />
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="/Content/Images/DefaultUser.png" id="imgDP2" class="img-circle ImgProfile" alt="User Image" /><br />
+                                    <span id="loginClass"></span>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat" style="color: #3c8dbc"><i class="fa fa-user-circle-o"></i></a>
+                                    </div>
+                                    <div class="pull-left" style="padding-left: 5px;">
+                                        <a href="#" class="btn btn-default btn-flat" style="color: #3c8dbc"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;&nbsp;Change Password?</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="@Url.Action("logout","Home")" class="btn btn-default btn-flat"><i class="fa fa-sign-out" style="color: red"></i></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu ">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i>
+                            <span>DASHBOARD</span>
+                        </a>
+                    </li>
+                    @*<li>
+                            <a href="@Url.Action("Bookorder")">
+                                <i class="fa fa-dashboard"></i>
+                                <span>Book Order</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("getAllNotice")">
+                                <i class="fa fa-dashboard"></i>
+                                <span>All Notice</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("AddNotice")">
+                                <i class="fa fa-dashboard"></i>
+                                <span>Add Notice</span>
+                            </a>
+                        </li>*@
+                </ul>
+            </section>
+        </aside>
+        <div class="content-wrapper" id="mindiv">
+            <div class="disablepage" style="display: none">
+                <div id="mydiv">
+                    <img src="/Content/Images/Loading.gif" class="ajax-loader" alt="loading" />
+
+                </div>
+            </div>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <div class="card-title">
+                                @RenderSection("cardHeader", required: false)
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding-top:11px">
+                            <div class="col-md-12">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-9 text-center"><strong>Copyright &copy; @DateTime.Now.Year</strong> All rights reserved.</div>
+                    <div class="col-sm-3 pull-right">Developed by Ankit jaiswal/Amit Singh</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+
+    <script src="~/Content/JS/jquery-2.2.3.min.js"></script>
+    <script src="/Content/JS/bootstrap.min.js"></script>
+    <script src="/Content/JS/app.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="~/Content/JS/jquery.dataTables.min.js"></script>
+    <script src="~/Content/JS/Myscript/site.js"></script>
+    <script>
+        $.post('/Common/GetProfiledetails').done(result => {
+            $('#spanLoginName').text(result[0].Name);
+            $('#imgDP,#imgDP2').attr('src', `/Content/Uploads/${result[0].RegId}.jpg`);
+            $('#loginClass').text(`Class : ${result[0].Class}`);
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<div ng-app="MyApp" ng-controller="FileUpload">
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <img src="~/images/india-top-attractions-varanasi.jpg" style="width:100%; height:300px;">
+        </div>
+
+        <div class="col-md-3" style="height:100%">
+
+            <div style="padding-left:75px;background-color:coral">
+
+                <img src="~/Uploads/{{UID}}.jpg" class="img-circle" alt="Cinque Terre" style="width:150px; height:150px; margin-top:-70px"><br>
+                <h4 style="padding-left:20px;padding-top:-150px;color:white;font-style:italic;margin-top:0px">{{Name}}</h4>
+                @*<h5 style="padding-left:40px;color:white;padding-top:0px;margin-top:-10px">Class:{{Class}}</h5>*@
+
+                @*<h4 style="padding-left:20%; width:80%;background-color:white;font-style:inherit;color:black">Contact</h4>*@
+
+
+
+                <i class="fa fa-home" aria-hidden="true">:{{Address}}</i><br />
+                <i class="fa fa-whatsapp" aria-hidden="true" style="color:white;margin-top:-200px;padding-left:40px;">:{{Phone}}</i><br />
+                <i class="fa fa-phone" aria-hidden="true" style="color:white;margin-top:-200px;padding-left:40px;">:{{Phone}}</i>
+            </div>
+            <div style="padding-left:75px;background-color:coral">
+                <a href="/UrlupdatePannel/Index" style="color:white">Url Update</a><br>
+                <a href="/AllDetailsOfRegistration/Index" style="color:white">Student Details</a><br>
+                <a href="/ChangeStatusPannel/Index" style="color:white">Active/DeActive Pannel</a>
+            </div>
+
+            <button type="button" class="btn btn-success" style="background-color:coral;width:100%" ng-click="logout()"><i class="fa fa-sign-out" aria-hidden="true">LogOuT</i></button>
+
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-12" style="padding-left:0%;padding-top:5%;padding-bottom:2% ">
+                <div class="container">
+
+                    <div class="panel-group" style="width:80%">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Details</div>
+                            <div class="panel-body">
+                                <table>
+                                    <tr>
+                                        <th>RegId</th>
+                                        <th colspan="2">Name</th>
+                                        <th colspan="2">FatherName </th>
+                                        <th colspan="2">MotherName </th>
+                                        <th colspan="2">Phone </th>
+                                        <th colspan="2">Class </th>
+                                        <th colspan="2">Dob </th>
+                                        <th colspan="2">Password </th>
+                                        <th colspan="2">Status</th>
+                                    </tr>
+                                    <tr ng-repeat="x in allrecord ">
+                                        <td>{{ x.RegId }}</td>
+                                        <td colspan="2">{{ x.Name }}</td>
+                                        <td colspan="2">{{ x.Father_Name }}</td>
+                                        <td colspan="2">{{ x.Mother_Name }}</td>
+                                        <td colspan="2">{{ x.Phone }}</td>
+                                        <td colspan="2">{{ x.Class }}</td>
+                                        <td colspan="2">{{ x.DOB }}</td>
+                                        <td colspan="2">{{ x.Password }}</td>
+                                        <td colspan="2">{{ x.Status }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+<script src="~/Js/FileUploadJavaScript.js"></script>
+
+

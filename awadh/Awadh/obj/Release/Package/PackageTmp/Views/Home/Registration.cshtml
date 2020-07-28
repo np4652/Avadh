@@ -1,0 +1,103 @@
+﻿<style>
+    .d-none {
+        display: none
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="usr">Name:</label>
+            <input type="text" class="form-control" name="Name">
+        </div>
+        <div class="form-group">
+            <label for="usr">Father Name:</label>
+            <input type="text" class="form-control" name="FatherName">
+        </div>
+        <div class="form-group">
+            <label for="usr">Mother Name:</label>
+            <input type="text" class="form-control" name="MotherName">
+        </div>
+        <div class="form-group">
+            <label for="usr">Address:</label>
+            <input type="text" class="form-control" name="Address">
+        </div>
+        <div class="form-group">
+            <label for="usr">Email:</label>
+            <input type="text" class="form-control" name="Email">
+        </div>
+        <div class="form-group">
+            <label for="usr">Phone No:</label>
+            <input type="text" class="form-control" name="PhoneNo">
+        </div>
+        <div class="form-group">
+            <label for="usr">Role:</label>
+            <select class="form-control" name="Role">
+                <option value="">SELECT</option>
+                <option value="Admin">Admin</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Student">Student</option>
+            </select>
+        </div>
+        <div id="StudentOnly" class="d-none">
+            <div class="form-group">
+                <label>Class:</label>
+                <select name="Class" class="form-control">
+                    <option value="">SELECT</option>
+                    <option value="PreNur">Pre Nursery</option>
+                    <option value="Nursery">Nursery</option>
+                    <option value="KG">KG</option>
+                    <option value="UKG">UKG</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Last School:</label>
+                <input type="text" class="form-control" name="LastSchool">
+            </div>
+            <div class="form-group">
+                <label>Local Guardian:</label>
+                <input type="text" class="form-control" name="LocalGuardian">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Date Of Birth:</label>
+            <input type="text" class="form-control" name="Dob">
+        </div>
+        <div class="form-group">
+            <label for="usr">Password:</label>
+            <input type="password" class="form-control" name="Password">
+        </div>
+        <div class="form-group">
+            <label for="usr">Confirm Password:</label>
+            <input type="password" class="form-control" name="ConfirmPassword">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Upload Image<span class="required">*:</span></label>
+            <input type="file" class="form-control" name="PassportImage" />
+        </div>
+        <div class="form-group text-right">
+            <button class="btn btn-info" id="btnRegistration">Submit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('select[name="Role"]').change(() => {
+        if ($('select[name="Role"]').val() === 'Student') {
+            $('#StudentOnly').removeClass('d-none');
+        }
+        else {
+            $('#StudentOnly').addClass('d-none');
+        }
+    });
+</script>

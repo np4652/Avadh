@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/views/Shared/_layoutTeacher.cshtml";
+}
+
+@section cardHeader{
+    <h4>Uploads</h4>
+}
+<div ng-app="MyApp" ng-controller="FileUpload">
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Pdf Upload</div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="usr">PDF TITLE:</label>
+                                <input type="text" class="form-control" ng-model="VedioDetails.PDFTITLE">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Upload PDF<span class="required">*:</span></label>
+                                <input type="file" class="form-control" multiple="multiple" ngf-select="UploadFiles($files)" />
+
+                            </div>
+                        </div>
+                        <button class="btn btn-info" ng-click="UploadFile()">Upload Pdf Files</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Save Vedio Url</div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="usr">Vedio Name:</label>
+                                <input type="text" class="form-control" ng-model="VedioDetails.VedioName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="usr">Subject:</label><br>
+
+                            <select class="form-control" ng-model="VedioDetails.SubjectId">
+                                <option value="">SELECT</option>
+                                <option data-ng-repeat="st in Subjectrecord" value="{{st.SubjectId}}">{{st.SubjectName}}</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <label for="usr">Class:</label>
+                            <select name="cars" class="form-control" ng-model="VedioDetails.VedioForClass">
+                                <option value="">SELECT</option>
+                                <option value="PreNur">Pre Nursery</option>
+
+                                <option value="Nursery">Nursery</option>
+                                <option value="KG">KG</option>
+                                <option value="UKG">UKG</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="usr">Vedio Tittle:</label>
+                                <input type="text" class="form-control" ng-model="VedioDetails.VedioTittle">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="usr">Vedio URL:</label>
+                                <input type="text" class="form-control" ng-model="VedioDetails.VedioUrl">
+                            </div>
+                        </div>
+                        <button class="btn btn-info" ng-click="submit()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+    <script src="~/Content/JS/MyScript/FileUploadJavaScript.js"></script>
+}

@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avadh</title>
+
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/lightbox.css" rel="stylesheet" />
+    <style>
+        .modal {
+            right: auto !important;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        h3.modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            font-family: monospace;
+            color: cadetblue;
+            text-transform: uppercase;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top w3ls-navbar">
+        <div class="container brand1">
+            <a href="#" class="navbar-brand w3-logo">Avadh School</a>
+
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- navbar collapse -->
+            <div class="collapse navbar-collapse navHeaderCollapse">
+                <ul class="nav navbar-nav navbar-right w3ls-nav">
+                    <li><a class="scroll" href="#home">Home</a></li>
+                    <li><a class="scroll" href="#about">About</a></li>
+                    <li><a class="scroll" href="#team">Team</a></li>
+                    <li><a class="scroll" href="#gallery">Gallery</a></li>
+                    @*<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Departments <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#service">Arts</a></li>
+                                <li><a href="#service">Science</a></li>
+                                <li><a href="#service">Commerce</a></li>
+                            </ul>
+                        </li>*@
+                    <li><a class="scroll" href="#stats">Stats</a></li>
+                    @*<li><a class="scroll" href="#blog">Blog</a></li>*@
+                    <li><a class="scroll" href="#contact-form">Contact</a></li>
+                    <li><a class="scroll" href="javascript:loginWin()">Login</a></li>
+                    <li><a class="scroll" href="javascript:RegistrationWin()">Registration</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- navbar end-->
+    <div>
+        @RenderBody()
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact w3ls-contact" id="contact">
+        <div class="container w3-contact">
+            <div class="list1">
+                <ul class="contact-list">
+                    <li class="heading"> Contact Us</li>
+                    <li>Avadh School Near Police Chowki</li>
+                    <li>Fatehpur Barabanki</li>
+                    <li>+91-9838174558</li>
+                    <li>+91-9616661549</li>
+                    <li><a href="mailto:avadhschoolfatehpur.com">avadhschoolfatehpur.com</a></li>
+                </ul>
+
+                <ul class="contact-hrs">
+                    <li class="heading">Our Timings</li>
+                    <li>Monday - Saturday</li>
+                    <li>09:00 AM - 03:00 PM</li>
+                    <li>Weakly Special Class</li>
+                    <li>Parents Meeting</li>
+                </ul>
+            </div>
+            <div class="list2">
+                <ul class="social-links">
+                    <li class="heading">Follow Us </li>
+                    <li><a href="facebook.com">Facebook</a></li>
+                    <li><a href="twitter.com">Twitter</a></li>
+                    <li><a href="pinterest.com">Pinterest</a></li>
+                    <li><a href="plus.google.com">Google+ </a></li>
+                </ul>
+
+                <ul class="sub-scribe">
+                    <li class="heading">Subscribe</li>
+                    <li>
+                        <form action="/" method="post">
+                            <input type="email" name="email" placeholder="Enter Your E-Mail" required><br>
+                            <input type="submit" value="Subscribe"><br>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- //Contact Section -->
+    <!-- //footer -->
+    <!-- copyright -->
+    <div class="agileits-w3layouts">
+        <div class="container">
+            <p>© 2020 Avadh. All rights reserved | Design by <a href="#">Amit Singh</a></p>
+        </div>
+    </div>
+    <!-- //copyright -->
+    <script src="/Content/JS/jquery-3.2.1.min.js"></script>
+    <script src="/Content/JS/bootstrap.min.js"></script>
+    <script src="/Content/JS/MyScript/site.js"></script>
+    <script src="/Content/JS/modernizr-2.6.2.js"></script>    
+    <script type="text/javascript" src="/Content/JS/move-top.js"></script>
+    <script type="text/javascript" src="/Content/JS/easing.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="/Content/JS/numscroller-1.0.js"></script>
+    @RenderSection("scripts", required: false);
+</body>
+</html>
