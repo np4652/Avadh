@@ -12,7 +12,6 @@
     <link href="/Content/css/_all-skins.min.css" rel="stylesheet" />
     <link href="~/Content/css/Site.css" rel="stylesheet" />
     <link href="~/Content/css/style.css" rel="stylesheet" />
-
     <style>
         body {
             overflow-x: hidden;
@@ -49,7 +48,7 @@
                         </li>
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                
+
                                 <img src="/Content/Images/DefaultUser.png" id="imgDP" class="user-image ImgProfile" alt="User Image" />
                             </a>
                             <ul class="dropdown-menu">
@@ -84,24 +83,12 @@
                             <span>DASHBOARD</span>
                         </a>
                     </li>
-                    @*<li>
-                            <a href="@Url.Action("Bookorder")">
-                                <i class="fa fa-dashboard"></i>
-                                <span>Book Order</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("getAllNotice")">
-                                <i class="fa fa-dashboard"></i>
-                                <span>All Notice</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("AddNotice")">
-                                <i class="fa fa-dashboard"></i>
-                                <span>Add Notice</span>
-                            </a>
-                        </li>*@
+                    <li>
+                        <a href="@Url.Action("AskedQuestion","Common")">
+                            <i class="fa fa-question"></i>
+                            <span>Asked Question</span>
+                        </a>
+                    </li>
                 </ul>
             </section>
         </aside>
@@ -153,7 +140,7 @@
             $('#spanLoginName').text(result[0].Name);
             $('#imgDP,#imgDP2').attr('src', `/Content/Uploads/${result[0].RegId}.jpg`);
             $('#loginClass').text(`Class : ${result[0].Class}`);
-        })
+        });
     </script>
     @RenderSection("scripts", required: false)
 </body>

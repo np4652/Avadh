@@ -1,0 +1,203 @@
+﻿@model IEnumerable<Awadh.Models.SubjectMasterModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/views/Shared/_LayoutStudent.cshtml";
+}
+
+@section cardHeader{
+    <h4>Asked Question</h4>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <strong>Subject</strong>
+            @{
+                if (Model.Any())
+                {
+                    <select class="form-control" id="ddlSubject">
+                        <option>:: Select Subject ::</option>
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.SubjectId">@item.SubjectName</option>
+                        }
+                    </select>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <strong>Your Question</strong>
+            <input type="text" class="form-control" placeholder="Your Question" id="txtQuestion"/>
+        </div>
+        <div class="form-group">            
+            <strong>Description</strong>
+            <textarea class="form-control" id="txtDescription"></textarea>
+        </div>
+        <div class="form-group text-right">
+            <button class="btn btn-primary" id="btnSave">ASKED</button>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        var initImageUpload = function (editor) {
+            // create input and insert in the DOM
+            var inp = $('<input id="tinymce-uploader" type="file" name="pic" accept="image/*" style="display:none">');
+            $(editor.getElement()).parent().append(inp);
+
+            // add the image upload button to the editor toolbar
+            editor.addButton('imageupload', {
+                text: '',
+                icon: 'image',
+                onclick: function (e) { // when toolbar button is clicked, open file select modal
+                    inp.trigger('click');
+                }
+            });
+            // when a file is selected, upload it to the server
+            inp.on("change", function (e) {
+                uploadFile($(this), editor);
+            });
+        };
+        var uploadFile = function (inp, editor) {
+            var input = inp.get(0);
+            var data = new FormData();
+            data.append('file', input.files[0]);
+            $.ajax({
+                url: '/Common/uploadImage',
+                type: 'POST',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data)
+                    editor.insertContent('<img class="content-img" src="' + data + '" />');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.responseText) {
+                        errors = JSON.parse(jqXHR.responseText).errors
+                        alert('Error uploading image: ' + errors.join(", ") + '. Make sure the file is an image and has extension jpg/jpeg/png.');
+                    }
+                }
+            });
+        };
+
+        var QuestionID = getQueryString("id");
+        tinymce.init({
+            selector: 'textarea',
+            height: 150,
+            //width: 700,
+            theme: 'modern',
+            plugins: ['advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code fullscreen',
+                'insertdatetime nonbreaking save table contextmenu directionality',
+                'emoticons template paste textcolor colorpicker textpattern'
+            ],
+            toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |',
+            toolbar2: 'print preview media | forecolor backcolor emoticons | imageupload',
+            setup: function (editor) {
+                initImageUpload(editor);
+            },
+            image_advtab: true,
+            templates: [
+                { title: 'Test template 1', content: 'Test 1' },
+                { title: 'Test template 2', content: 'Test 2' }
+            ],
+            content_css: ['//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+                '//www.tinymce.com/css/codepen.min.css'
+            ]
+        });
+        if (getQueryString("id") != undefined) {
+            $.post('/Admin/GetNoticeByID', { id: getQueryString("id") })
+                .done(result => {
+                    if (result.ID > 0) {
+                        $('#txtTitle').val(result.Title);
+                        tinyMCE.activeEditor.setContent(result.Detail);
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'error',
+                            titleText: 'Error!',
+                            text: result.status === 0 ? 'Internet Connection was broken' : result.status === 404 ? 'Requested action not found' : 'internal Server Error',
+                            icon: 'error',
+                            confirmButtonText: '',
+                            showConfirmButton: false,
+                            toast: true,
+                            position: 'top-right',
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    }
+                })
+                .fail(xhr => {
+                    Swal.fire({
+                        title: 'error',
+                        titleText: 'Error!',
+                        text: xhr.status === 0 ? 'Internet Connection was broken' : xhr.status === 404 ? 'Requested action not found' : 'internal Server Error',
+                        icon: 'error',
+                        confirmButtonText: '',
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-right',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                });
+        }
+
+
+        $('#btnSave').click(() => {
+            //let descr = tinyMCE.get('txtQuestion').getContent();
+            let param = {
+                QuestionID: getQueryString("id") != undefined ? getQueryString("id") : 0,
+                SubjectID: $('#ddlSubject').val(),
+                Question: $('#txtQuestion').val(),
+                QuestionDescription: tinyMCE.get('txtDescription').getContent()
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/Common/AskedQuestion',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(param),
+                success: result => {
+                    if (result.StatusCode === 1) {
+                        tinyMCE.activeEditor.setContent('');
+                        $('input').val('');
+                        $('#ddlSubject')[0].selectedIndex = 0;
+                        sessionStorage.clear();
+                    }
+                    Swal.fire({
+                        title: 'success',
+                        titleText: 'Success!',
+                        text: 'Successfully Addedd',
+                        icon: 'success',
+                        confirmButtonText: '',
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-right',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                },
+                error: xhr => {
+                    Swal.fire({
+                        title: 'error',
+                        titleText: 'Error!',
+                        text: xhr.status === 0 ? 'Internet Connection was broken' : xhr.status === 404 ? 'Requested action not found' : 'internal Server Error',
+                        icon: 'error',
+                        confirmButtonText: '',
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-right',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
+            });
+        });
+    </script>
+}

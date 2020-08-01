@@ -139,7 +139,7 @@ var mdlA = modalAlert;
                     _ele.removeClass('invalid');
                     _ele.parent('div').find('span.text-invalid').remove();
                 }
-                if ((_tag === 'SELECT' || _tag === 'INPUT') && (_ele.val() === undefined || _ele.val() === '') || (_tag === 'SELECT' && _ele.val() === "0")) {                    
+                if ((_tag === 'SELECT' || _tag === 'INPUT') && (_ele.val() === undefined || _ele.val() === '') || (_tag === 'SELECT' && _ele.val() === "0")) {
                     _ele.addClass('invalid').after(' <span class="text-danger text-monospace text-invalid"><small>(This is mendetory field)</span></small>').focus();
                     IsValid = false;
                     return false;
@@ -174,53 +174,37 @@ var mdlA = modalAlert;
 
 
 var loginWin = () => {
-        $.post('/home/login').done(result => {
-            mdlA.id = "loginWindow";
-            mdlA.title = "Login";
-            mdlA.content = result;
-            mdlA.modal(mdlA.size.default);
-            $('#btnLogin').click(() => {
-                if ($.FormValidation.IsFormValid()) {
-                    let params = {
-                        RegId: $('#UserId').val(),
-                        PSD: $('#Password').val()
-                    };
-                    $.post('/home/_Login', params).done(response => {
-                        Swal.fire({
-                            title: response.StatusCode ===1 ?'success':'error',
-                            titleText: response.StatusCode === 1 ? 'Success!' : "Error",
-                            text: response.Status,
-                            icon: response.StatusCode === 1 ?'success':'error',
-                            confirmButtonText: '',
-                            showConfirmButton: false,
-                            toast: true,
-                            position: 'top-right',
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
-                        if (response.StatusCode === 1)
-                            window.location.href = response.CommonString;
-                        //let ln = response.length;
-                        //if (ln == 0) {
-                        //    alert("Please Check Your UserId/Password OR Your Account Has been Deactivated .");
-                        //}
-                        //else {
-                        //    let Role = response[0].Role;
-                        //    if (Role === "Student") {
-                        //        window.location.href = '/Student/Index';
-                        //    }
-                        //    if (Role == 'Admin') {
-                        //        window.location.href = '/Teacher/Index';
-                        //    }
-                        //    if (Role == 'Teacher') {
-                        //        window.location.href = '/Teacher/Index';
-                        //    }
-                        //}
+    $.post('/home/login').done(result => {
+        mdlA.id = "loginWindow";
+        mdlA.title = "Login";
+        mdlA.content = result;
+        mdlA.modal(mdlA.size.default);
+        $('#btnLogin').click(() => {
+            if ($.FormValidation.IsFormValid()) {
+                let params = {
+                    RegId: $('#UserId').val(),
+                    PSD: $('#Password').val()
+                };
+                $.post('/home/_Login', params).done(response => {
+                    Swal.fire({
+                        title: response.StatusCode === 1 ? 'success' : 'error',
+                        titleText: response.StatusCode === 1 ? 'Success!' : "Error",
+                        text: response.Status,
+                        icon: response.StatusCode === 1 ? 'success' : 'error',
+                        confirmButtonText: '',
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-right',
+                        timer: 3000,
+                        timerProgressBar: true
                     });
-                }
-            })
-        });
-    }
+                    if (response.StatusCode === 1)
+                        window.location.href = response.CommonString;
+                });
+            }
+        })
+    });
+}
 
 
 var RegistrationWin = () => {
@@ -298,7 +282,7 @@ var RegistrationWin = () => {
                             });
                         }
                         else {
-                            if (response.Catch !== "") {                                
+                            if (response.Catch !== "") {
                                 console.log(response.Catch)
                             }
                             Swal.fire({
@@ -324,3 +308,43 @@ var RegistrationWin = () => {
     });
 }
 
+
+var ChangePassWin = () => {
+    preloader.load();
+    $.post('/common/ChangePassword').done(result => {
+        mdlA.id = "changePassWindow";
+        mdlA.title = "Change Password";
+        mdlA.content = result;
+        mdlA.modal(mdlA.size.default);
+        $('#btnChangePass').click(() => {
+            if ($.FormValidation.IsFormValid()) {
+                let params = {
+                    currentPass: $('#currentPass').val(),
+                    newPass: $('#newPass').val(),
+                    rePass: $('#rePass').val()
+                };
+                if (params.newPass !== params.rePass) {
+                    $('#rePass').after('<label class="text-danger text-monospace">* Password not matched.Please Reenter password</label>');
+                    return false
+                }
+                $.post('/Common/ChangeUserPassword', params).done(response => {
+                    Swal.fire({
+                        title: response.StatusCode === 1 ? 'success' : 'error',
+                        titleText: response.StatusCode === 1 ? 'Success!' : "Error",
+                        text: response.Status,
+                        icon: response.StatusCode === 1 ? 'success' : 'error',
+                        confirmButtonText: '',
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-right',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                    if (response.StatusCode === 1) {
+                        mdlA.dispose();
+                    }
+                }).always(() => preloader.remove());
+            }
+        })
+    });
+}

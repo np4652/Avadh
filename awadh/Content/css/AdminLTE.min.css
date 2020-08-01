@@ -1576,7 +1576,6 @@ a {
 
     .small-box h3, .small-box p {
         z-index: 5;
-        text-align:center;
     }
 
     .small-box .icon {
@@ -5329,7 +5328,6 @@ table.text-center, table.text-center td, table.text-center th {
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
-    
     box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
 }
 
@@ -5341,6 +5339,44 @@ table.text-center, table.text-center td, table.text-center th {
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
 }
+
 .card-primary.card-outline {
     border-top: 3px solid #007bff;
+}
+
+
+.bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+    background-color: #00c0ef !important;
+}
+
+.bg-info {
+    background-color: #17a2b8 !important;
+    color: #fff !important;
+}
+.small-box > .inner {
+    padding: 10px;
+}
+
+.small-box .icon {
+    -webkit-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    z-index: 0;
+    font-size: 90px;
+    color: rgba(0,0,0,0.15);
+}
+
+.small-box > .small-box-footer {
+    position: relative;
+    text-align: center;
+    padding: 3px 0;
+    color: #fff;
+    color: rgba(255,255,255,0.8);
+    display: block;
+    z-index: 10;
+    background: rgba(0,0,0,0.1);
+    text-decoration: none;
 }

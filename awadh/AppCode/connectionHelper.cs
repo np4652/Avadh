@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace Mahadev
+namespace Awadh
 {
     public class connectionHelper
     {

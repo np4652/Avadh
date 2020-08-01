@@ -1,6 +1,5 @@
 ﻿using Awadh.Models;
 using Dapper;
-using Mahadev;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -121,7 +120,7 @@ namespace Awadh.DAL
             try
             {
                 List<Registration> List = new List<Registration>();
-                string SqlString = "select dbo.Users.Role from dbo.Users join dbo.UsersLogin on dbo.Users.RegId = dbo.UsersLogin.RegId where dbo.UsersLogin.RegId = '" + RegId + "' and dbo.UsersLogin.Password = '" + PSD + "' and dbo.Users.Status='Active';";
+                string SqlString = "select dbo.Users.Role,dbo.Users.Class from dbo.Users join dbo.UsersLogin on dbo.Users.RegId = dbo.UsersLogin.RegId where dbo.UsersLogin.RegId = '" + RegId + "' and dbo.UsersLogin.Password = '" + PSD + "' and dbo.Users.Status='Active';";
                 SqlDataAdapter sda = new SqlDataAdapter(SqlString, con);
                 DataTable dt = new DataTable();
                 con.Open();
@@ -133,7 +132,8 @@ namespace Awadh.DAL
                     var loginData = new LoginData
                     {
                         LoginID = int.Parse(RegId),
-                        Role = Convert.ToString(dt.Rows[0]["Role"])
+                        Role = Convert.ToString(dt.Rows[0]["Role"]),
+                        Class = Convert.ToString(dt.Rows[0]["Class"])
                     };
                     HttpContext.Current.Session[SessionKey.Login] = loginData;
                 }
@@ -174,8 +174,6 @@ namespace Awadh.DAL
             try
             {
                 List<ProfileData> List = new List<ProfileData>();
-
-
                 string SqlString = "select * from VedioDetail where vedioForClass ='" + cls + "' and Subject =4";
                 SqlDataAdapter sda = new SqlDataAdapter(SqlString, con);
                 DataTable dt = new DataTable();
@@ -211,8 +209,6 @@ namespace Awadh.DAL
             try
             {
                 List<ProfileData> List = new List<ProfileData>();
-
-
                 string SqlString = "select * from VedioDetail where vedioForClass ='" + cls + "' and Subject =3";
                 SqlDataAdapter sda = new SqlDataAdapter(SqlString, con);
                 DataTable dt = new DataTable();
@@ -276,9 +272,6 @@ namespace Awadh.DAL
             {
                 return null;
             }
-
-
         }
-
     }
 }

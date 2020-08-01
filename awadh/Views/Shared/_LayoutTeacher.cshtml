@@ -8,6 +8,7 @@
     <title>Admin | Avadh</title>
     <link href="/Content/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/Content/css/font-awesome.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">*@
     <link href="/Content/css/AdminLTE.min.css" rel="stylesheet" />
     <link href="/Content/css/_all-skins.min.css" rel="stylesheet" />
     <link href="~/Content/css/Site.css" rel="stylesheet" />
@@ -56,14 +57,10 @@
                                     <img src="/Content/Images/DefaultUser.png" id="imgDP2" class="img-circle ImgProfile" alt="User Image" /><br />
                                     <span id="loginClass"></span>
                                 </li>
-                                <li class="user-footer">
-                                    <div class="pull-left">
+                                <li class="user-footer text-center">
+                                    <div class="btn-group">
                                         <a href="#" class="btn btn-default btn-flat" style="color: #3c8dbc"><i class="fa fa-user-circle-o"></i></a>
-                                    </div>
-                                    <div class="pull-left" style="padding-left: 5px;">
-                                        <a href="#" class="btn btn-default btn-flat" style="color: #3c8dbc"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;&nbsp;Change Password?</a>
-                                    </div>
-                                    <div class="pull-right">
+                                        <a href="javascript:ChangePassWin()" class="btn btn-default btn-flat" style="color: #3c8dbc"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;&nbsp;Change Password?</a>
                                         <a href="@Url.Action("logout","Home")" class="btn btn-default btn-flat"><i class="fa fa-sign-out" style="color: red"></i></a>
                                     </div>
                                 </li>
@@ -78,29 +75,29 @@
             <section class="sidebar">
                 <ul class="sidebar-menu ">
                     <li>
-                        <a href="@Url.Action("index")">
+                        <a href="@Url.Action("index","Teacher")">
                             <i class="fa fa-dashboard"></i>
-                            <span>DASHBOARD</span>
+                            <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("StatusChange","Teacher")">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Change Status</span>
+                        <a href="@Url.Action("Uploads","Teacher")">
+                            <i class="text-success fa fa-upload"></i>
+                            <span>Uploads</span>
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("UsersDeatil","Teacher")">
-                            <i class="fa fa-dashboard"></i>
+                        <a href="@Url.Action("UsersDetail","Teacher")">
+                            <i class="text-info fa fa-users"></i>
                             <span>Users</span>
                         </a>
                     </li>
-                    @*<li>
-                            <a href="@Url.Action("AddNotice")">
-                                <i class="fa fa-dashboard"></i>
-                                <span>Add Notice</span>
-                            </a>
-                        </li>*@
+                    <li>
+                        <a href="@Url.Action("GetAskedQuestion","Common")">
+                            <i class="text-danger fa fa-question"></i>
+                            <span>Question List</span>
+                        </a>
+                    </li>
                 </ul>
             </section>
         </aside>
@@ -132,9 +129,9 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-9 text-center"><strong>Copyright &copy; @DateTime.Now.Year</strong> All rights reserved.</div>
-                    <div class="col-sm-3 pull-right">Developed by Ankit jaiswal/Amit Singh</div>
+                <div class="row text-monospace">
+                    <div class="col-sm-6"><strong>Copyright &copy; @DateTime.Now.Year</strong><small> All rights reserved.</small></div>
+                    <div class="col-sm-6 text-right"><small>Developed by Amit Singh & Ankit jaiswal</small></div>
                 </div>
             </div>
         </footer>

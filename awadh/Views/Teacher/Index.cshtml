@@ -1,102 +1,77 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dashboard";
     Layout = "~/views/Shared/_layoutTeacher.cshtml";
 }
-
+<style>
+    .card {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: unset;
+        background-clip: unset;
+        border: unset;
+        border-radius: unset;
+        box-shadow:unset;
+        /*box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);*/
+    }
+    .card-primary.card-outline {
+        border-top: unset;
+    }
+    .card-header {
+         background-color: none; 
+         border-bottom: unset; 
+         position: relative; 
+         padding: .75rem 1.25rem; 
+         border-top-left-radius:unset; 
+         border-top-right-radius: unset; 
+    }
+</style>
 @section cardHeader{
-    <h4>Uploads</h4>
+    <h4>Dashboards</h4>
 }
-<div ng-app="MyApp" ng-controller="FileUpload">
-    <div class="row">
-        <div class="col-md-6">
-
-            <div class="panel-group">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Pdf Upload</div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="usr">PDF TITLE:</label>
-                                <input type="text" class="form-control" ng-model="VedioDetails.PDFTITLE">
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label">Upload PDF<span class="required">*:</span></label>
-                                <input type="file" class="form-control" multiple="multiple" ngf-select="UploadFiles($files)" />
-
-                            </div>
-                        </div>
-                        <button class="btn btn-info" ng-click="UploadFile()">Upload Pdf Files</button>
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 id="countNewQuestion">0</h3>
+                <p>New Questions</p>
             </div>
+            <div class="icon">
+                <i class="fa fa-question"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
-        <div class="col-md-6">
-            <div class="panel-group">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Save Vedio Url</div>
-                    <div class="panel-body">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="usr">Vedio Name:</label>
-                                <input type="text" class="form-control" ng-model="VedioDetails.VedioName">
-                            </div>
-                        </div>
+    </div>
 
-                        <div class="col-md-12">
-                            <label for="usr">Subject:</label><br>
-
-                            <select class="form-control" ng-model="VedioDetails.SubjectId">
-                                <option value="">SELECT</option>
-                                <option data-ng-repeat="st in Subjectrecord" value="{{st.SubjectId}}">{{st.SubjectName}}</option>
-                            </select>
-                        </div>
-
-
-                        <div class="col-md-12">
-                            <label for="usr">Class:</label>
-                            <select name="cars" class="form-control" ng-model="VedioDetails.VedioForClass">
-                                <option value="">SELECT</option>
-                                <option value="PreNur">Pre Nursery</option>
-
-                                <option value="Nursery">Nursery</option>
-                                <option value="KG">KG</option>
-                                <option value="UKG">UKG</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="usr">Vedio Tittle:</label>
-                                <input type="text" class="form-control" ng-model="VedioDetails.VedioTittle">
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="usr">Vedio URL:</label>
-                                <input type="text" class="form-control" ng-model="VedioDetails.VedioUrl">
-                            </div>
-                        </div>
-                        <button class="btn btn-info" ng-click="submit()">Submit</button>
-                    </div>
-                </div>
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3 id="countStudents">0</h3>
+                <p>Students</p>
             </div>
+            <div class="icon">
+                <i class="fa fa-users"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
 </div>
 @section scripts{
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
-    <script src="~/Content/JS/MyScript/FileUploadJavaScript.js"></script>
+    <script>
+        (() => {
+            var loadDashboard = () => {
+                $.post('/teacher/dashboard').done(result => {
+                    $('#countNewQuestion').html(result.NewQuestion);
+                    $('#countStudents').html(result.Students);
+                });
+            };
+            loadDashboard();
+        })();
+    </script>
 }

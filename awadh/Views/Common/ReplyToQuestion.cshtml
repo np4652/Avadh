@@ -1,0 +1,72 @@
+﻿@model Awadh.Models.AskedQuestion
+
+@section cardHeader{
+    <h4>Asked Question</h4>
+}
+
+<div class="row">    
+    <div class="col-sm-12">
+        <div class="form-group">
+            <input type="hidden" id="hfdID" value="@Model.QuestionID"/>
+            <label><span>Question</span> : @Model.Question</label>
+        </div>
+        <div class="form-group">
+            <label><span>Description</span> : @Html.Raw(Model.QuestionDescription)</label>
+        </div>
+        <div class="form-group">
+            <strong>Reply</strong>
+            <textarea class="form-control" id="txtReply"></textarea>
+        </div>
+        <div class="form-group text-right">
+            <button class="btn btn-primary" id="btnReply">Reply</button>
+        </div>
+    </div>
+</div>
+<script>
+    intiEditor();
+    $('#btnReply').click(() => {
+        let param = {
+            QuestionID: $('#hfdID').val(),
+            Reply: tinyMCE.get('txtReply').getContent()
+        };
+        console.log(param);
+        $.ajax({
+            type: 'POST',
+            url: '/Common/PostReply',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(param),
+            success: result => {
+                if (result.StatusCode === 1) {
+                    mdlA.dispose();
+                }
+                Swal.fire({
+                    title: 'success',
+                    titleText: 'Success!',
+                    text: 'Successfully Addedd',
+                    icon: 'success',
+                    confirmButtonText: '',
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-right',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            },
+            error: xhr => {
+                Swal.fire({
+                    title: 'error',
+                    titleText: 'Error!',
+                    text: xhr.status === 0 ? 'Internet Connection was broken' : xhr.status === 404 ? 'Requested action not found' : 'internal Server Error',
+                    icon: 'error',
+                    confirmButtonText: '',
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-right',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+        });
+    });
+</script>

@@ -1,4 +1,5 @@
-﻿using Awadh.DAL;
+﻿using Awadh.AppCode.Interfaces;
+using Awadh.DAL;
 using Awadh.Models;
 using Newtonsoft.Json;
 using System.IO;
@@ -12,19 +13,30 @@ namespace Awadh.Controllers
     [Authrization("Admin","Teacher")]
     public class TeacherController :Controller
     {
-        // GET: Teacher
-        LoginData loginData = new LoginData();
         StudentRegistrationDal dal = new StudentRegistrationDal();
+        private readonly ITeacher teacherML = new TeacherML();
         public ActionResult Index()
         {
             return View();
         }
 
-        public string ChangeStatus(string Status, string RegId)
+        [HttpPost]
+        public JsonResult Dashboard()
         {
-            string Val = "";            
-            Val = dal.ChangeStatus(Status, RegId);
-            return Val;
+            var data = teacherML.Dashboard();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Uploads()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public Response ChangeStatus(string Status, string RegId)
+        {
+            var response = teacherML.ChangeStatus(Status, RegId);
+            return response;
         }
 
         public ContentResult Upload(string newname)
@@ -35,19 +47,10 @@ namespace Awadh.Controllers
             {
                 Directory.CreateDirectory(path);
             }
-
             HttpPostedFileBase postedFile = Request.Files[0];
-            //postedFile.SaveAs(path + postedFile.FileName);
             postedFile.SaveAs(path + RecentGenerateID.ToString() + System.IO.Path.GetExtension(postedFile.FileName));
 
             string imagepath = "/Content/PDF/" + newname;
-            //foreach (string key in Request.Files)
-            //{
-            //    HttpPostedFileBase postedFile = Request.Files[key];
-            //    postedFile.SaveAs(path + postedFile.FileName);
-
-            //}
-
             return Content(imagepath);
         }
 
@@ -55,28 +58,14 @@ namespace Awadh.Controllers
 
         public string VedioDetails(string Comm)
         {
-            string Val = "";
             Models.ProfileData REG = JsonConvert.DeserializeObject<Models.ProfileData>(Comm);
-            Val = dal.VideoDetails(REG);
+            var Val = dal.VideoDetails(REG);
             return Val;
         }
 
-        public ActionResult UsersDeatil()
+        public ActionResult UsersDetail()
         {
             return View();
-        }
-        
-
-        public ActionResult StatusChange()
-        {
-            return View();
-        }
-
-        
-        public JsonResult GetSubjectMaster()
-        {
-            var users = dal.GetSubjectMaster();
-            return Json(users, JsonRequestBehavior.AllowGet);
         }
     }
 }

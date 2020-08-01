@@ -140,6 +140,8 @@
   <ItemGroup>
     <Compile Include="AppCode\connectionHelper.cs" />
     <Compile Include="AppCode\Authrization.cs" />
+    <Compile Include="AppCode\Interfaces\ICommon.cs" />
+    <Compile Include="AppCode\Interfaces\ITeacher.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -149,12 +151,16 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="DAL\CommonDal.cs" />
     <Compile Include="DAL\ProfileDal.cs" />
     <Compile Include="DAL\StudentRegistrationDal.cs" />
+    <Compile Include="DAL\TeacherML.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AskedQuestion.cs" />
+    <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\Registration.cs" />
@@ -181,6 +187,7 @@
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\font.css" />
     <Content Include="Content\css\fontawesome-all.min.css" />
+    <Content Include="Content\css\ionicons.min.css" />
     <Content Include="Content\css\lightbox.css" />
     <Content Include="Content\css\Site.css" />
     <Content Include="Content\css\style.css" />
@@ -337,13 +344,16 @@
     <Content Include="Views\Shared\_LayoutStudent.cshtml" />
     <Content Include="Views\Home\Registration.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
-    <Content Include="Views\Teacher\UsersDeatil.cshtml" />
-    <Content Include="Views\Teacher\StatusChange.cshtml" />
+    <Content Include="Views\Teacher\UsersDetail.cshtml" />
     <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
+    <Content Include="Views\Common\AskedQuestion.cshtml" />
+    <Content Include="Views\Common\GetAskedQuestion.cshtml" />
+    <Content Include="Views\Common\ReplyToQuestion.cshtml" />
+    <Content Include="Views\Teacher\Uploads.cshtml" />
+    <Content Include="Views\Common\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Project_Readme.html" />

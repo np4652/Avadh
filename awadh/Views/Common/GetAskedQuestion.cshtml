@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Awadh.Models.AskedQuestion>
+@{
+    ViewBag.Title = "GetAskedQuestion";
+    Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
+}
+
+@section cardHeader{
+    <h4>Asked Question</h4>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        @if (Model.Any())
+        {
+            int i = 1;
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Question</th>
+                        <th>Subject</th>
+                        <th>Class</th>
+                        <th>Posted By</th>
+                        <th>Reply</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@Html.Raw(item.Question)</td>
+                            <td>@item.SubjectName</td>
+                            <td>@item.Class</td>
+                            <td>@item.PostedBy</td>
+                            <td><a href="javascript:fnReply(@item.QuestionID)"><i class="fa fa-edit"></i></a></td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        var initImageUpload = function (editor) {
+            var inp = $('<input id="tinymce-uploader" type="file" name="pic" accept="image/*" style="display:none">');
+            $(editor.getElement()).parent().append(inp);
+            editor.addButton('imageupload', {
+                text: '',
+                icon: 'image',
+                onclick: function (e) {
+                    inp.trigger('click');
+                }
+            });
+            inp.on("change", function (e) {
+                uploadFile($(this), editor);
+            });
+        };
+        var uploadFile = function (inp, editor) {
+            var input = inp.get(0);
+            var data = new FormData();
+            data.append('file', input.files[0]);
+            $.ajax({
+                url: '/Common/uploadImage',
+                type: 'POST',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data)
+                    editor.insertContent('<img class="content-img" src="' + data + '" />');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.responseText) {
+                        errors = JSON.parse(jqXHR.responseText).errors
+                        alert('Error uploading image: ' + errors.join(", ") + '. Make sure the file is an image and has extension jpg/jpeg/png.');
+                    }
+                }
+            });
+        };
+        var intiEditor = () => {
+            tinymce.init({
+                selector: 'textarea',
+                height: 150,
+                theme: 'modern',
+                plugins: ['advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern'
+                ],
+                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |',
+                toolbar2: 'print preview media | forecolor backcolor emoticons | imageupload',
+                setup: function (editor) {
+                    initImageUpload(editor);
+                },
+                image_advtab: true,
+                templates: [
+                    { title: 'Test template 1', content: 'Test 1' },
+                    { title: 'Test template 2', content: 'Test 2' }
+                ],
+                content_css: ['//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+                    '//www.tinymce.com/css/codepen.min.css'
+                ]
+            });
+
+            if (tinymce.editors.length > 0) {
+                tinymce.execCommand('mceFocus', true, 'txtReply');
+                tinymce.execCommand('mceRemoveEditor', true, 'txtReply');
+                tinymce.execCommand('mceAddEditor', true, 'txtReply');
+            }
+
+        }
+        var fnReply = QuestionID => {
+            $.post('/Common/ReplyToQuestion', { QuestionID: QuestionID })
+                .done(result => {
+                    mdlA.id = "replyWindow";
+                    mdlA.title = "Reply";
+                    mdlA.content = result;
+                    mdlA.modal(mdlA.size.large, () => $('#replyWindow').remove());
+                }).fail(xhr => {
+                    Swal.fire({
+                        title: 'error',
+                        titleText: 'Error!',
+                        text: 'Technical Issue',
+                        icon: 'error',
+                        confirmButtonText: '',
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-right',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+
+                })
+        }
+
+    </script>
+}

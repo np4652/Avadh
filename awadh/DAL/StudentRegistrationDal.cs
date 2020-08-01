@@ -1,13 +1,9 @@
 ﻿using Awadh.Models;
 using Dapper;
-using Mahadev;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 
 
 namespace Awadh.DAL
@@ -84,48 +80,6 @@ namespace Awadh.DAL
                 result = ex.Message;
             }
             return result;
-        }
-
-
-        public string ChangeStatus(string Status, string RegId)
-        {
-            cmd.Connection = con;
-            string ss = "";
-            cmd.CommandText = @"UPDATE [SchoolErp].[dbo].[Users] SET Status = '" + Status + "' WHERE RegId = '" + RegId + "'";
-            con.Open();
-            int tst = cmd.ExecuteNonQuery();
-            if (tst == 1)
-            {
-                ss = "Successfully done";
-
-            }
-            else
-            {
-                ss = "UserID is not correct ";
-            }
-            con.Close();
-            return ss;
-        }
-
-
-        public List<SubjectMasterModel> GetSubjectMaster()
-        {
-            List<SubjectMasterModel> List = new List<SubjectMasterModel>();
-            try
-            {
-                using (var con = connectionHelper.GetConnection())
-                {
-                    List = con.Query<SubjectMasterModel>("select * from SubjectMaster", new
-                    {
-
-                    }).ToList();
-                }
-                return List;
-            }
-            catch (Exception ex)
-            {
-                return List;
-            }
         }
     }
 }

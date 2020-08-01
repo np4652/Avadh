@@ -142,7 +142,7 @@ app.controller('FileUpload', function ($scope, $http, Upload, $timeout) {
     $scope.GetSubjectMaster = function () {
         $http({
             method: "GET",
-            url: '/Teacher/GetSubjectMaster',
+            url: '/Common/GetSubjectMaster',
             params: {}
         }).then(function mySuccess(response) {
             if (response.data.length > 0) {
