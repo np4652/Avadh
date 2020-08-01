@@ -1,9 +1,11 @@
-﻿using Awadh.DAL;
+﻿using Awadh.AppCode.Interfaces;
+using Awadh.DAL;
 using Awadh.Models;
-using System.Collections;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,7 +14,7 @@ namespace Awadh.Controllers
     public class HomeController : Controller
     {
         ProfileDal dal = new ProfileDal();
-
+        private readonly ICommon commonML = new CommonDal();
         public ActionResult Index()
         {
             return View();
@@ -63,43 +65,32 @@ namespace Awadh.Controllers
         [HttpPost]
         public JsonResult _Registration(Registration data)
         {
-            StudentRegistrationDal dal = new StudentRegistrationDal();
-            var result = dal.RegistrationPer(data);
-            return Json(result);
-        }
+            var response = commonML.RegistrationPer(data);
 
-        [HttpPost]
-        public ContentResult Upload(string newname)
-        {
-
-            if (string.IsNullOrEmpty(newname))
+            if(response.StatusCode==1 && response.CommonInt > 0)
             {
-                return Content("Name cann't be empty");
+                try
+                {
+                    string path = Server.MapPath("~/Content/Uploads/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    HttpPostedFileBase postedFile = Request.Files[0];
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(path);
+                    sb.Append(response.CommonInt);
+                    sb.Append(".jpg");
+                    postedFile.SaveAs(sb.ToString());
+                }
+                catch(Exception ex)
+                {
+                    
+                }
             }
-
-            string RecentGenerateID = newname.ToString();
-            string path = Server.MapPath("~/Content/Uploads/");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            HttpPostedFileBase postedFile = Request.Files[0];            
-            postedFile.SaveAs(path + RecentGenerateID.ToString() + System.IO.Path.GetExtension(postedFile.FileName));
-            string imagepath = "~/Content/Uploads/" + RecentGenerateID.ToString();            
-            return Content(imagepath);
+            return Json(response);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-            return View();
-        }
 
         public string SendingMail(string Comm)
         {

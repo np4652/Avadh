@@ -11,8 +11,7 @@ namespace Awadh.Controllers
     [Authrization("Admin", "Teacher", "Student")]
     public class CommonController : Controller
     {
-        // GET: ProfilePage
-        ProfileDal dal = new ProfileDal();
+        
         private readonly ICommon commonML = new CommonDal();
         public ActionResult AskedQuestion()
         {
@@ -80,21 +79,13 @@ namespace Awadh.Controllers
         public JsonResult GetProfiledetails()
         {
             var login = (LoginData)Session[SessionKey.Login];
-            var users = dal.GetProfiledetails(login.LoginID);
+            var users = commonML.GetProfiledetails(login.LoginID);
             return Json(users, JsonRequestBehavior.AllowGet);
-        }
-
-        public string loginsummery(string RegId)
-        {
-            string Val = "";
-            //  Models.Registration REG = JsonConvert.DeserializeObject<Models.Registration>(RegId);
-            Val = dal.loginsummery(RegId);
-            return Val;
         }
 
         public JsonResult GetAllProfileDetails(string RegId)
         {
-            var users = dal.GetAllProfileDetails(RegId);
+            var users = commonML.GetAllProfileDetails(RegId);
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 

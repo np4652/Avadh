@@ -13,6 +13,94 @@ namespace Awadh.DAL
 {
     public class CommonDal : ICommon
     {
+
+        public Response RegistrationPer(Registration dts)
+        {
+            var response = new Response
+            {
+                Status = "Technical Issue"
+            };
+            try
+            {
+                using (var con = connectionHelper.GetConnection())
+                {
+                    response = con.Query<Response>("UserRegistration",
+                        new
+                        {
+                            dts.Name,
+                            dts.Father_Name,
+                            dts.Mother_Name,
+                            dts.Phone,
+                            dts.Email,
+                            dts.Role,
+                            dts.Class,
+                            dts.Address,
+                            dts.DOB,
+                            dts.LastSchool,
+                            Status = "Active",
+                            dts.Password
+                        }, commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Catch = ex.Message;
+            }
+            return response;
+        }
+
+        public IEnumerable<Registration> GetProfiledetails(int RegId)
+        {
+            List<Registration> List = new List<Registration>();
+            try
+            {
+                if (RegId > 0)
+                {
+                    using (var Con = connectionHelper.GetConnection())
+                    {
+                        List = Con.Query<Registration>("select * from dbo.Users join dbo.UsersLogin on dbo.Users.RegId= dbo.UsersLogin.RegId where dbo.UsersLogin.RegId=@RegId",
+                            new
+                            {
+                                RegId
+                            }, commandType: CommandType.Text).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return List;
+        }
+
+        public IEnumerable<Registration> GetAllProfileDetails(string RegId)
+        {
+            string SqlString = string.Empty;
+            List<Registration> List = new List<Registration>();
+            try
+            {
+                if (RegId == "undefined" || RegId == null)
+                {
+                    SqlString = "select * from dbo.Users join dbo.UsersLogin on dbo.Users.RegId= dbo.UsersLogin.RegId  ORDER BY dbo.Users.RegId DESC";
+                }
+                else
+                {
+                    SqlString = "select * from dbo.Users join dbo.UsersLogin on dbo.Users.RegId= dbo.UsersLogin.RegId where dbo.UsersLogin.RegId=@RegId;";
+                }
+                using (var con = connectionHelper.GetConnection())
+                {
+                    List = con.Query<Registration>(SqlString, new
+                    {
+                        RegId
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return List;
+        }
         public Response AskedQuestion(AskedQuestion param)
         {
             using (var Connection = connectionHelper.GetConnection())
@@ -182,7 +270,7 @@ namespace Awadh.DAL
             }
         }
 
-        public Response ChangePassword(string currentPassword,string newPassword)
+        public Response ChangePassword(string currentPassword, string newPassword)
         {
             using (var Connection = connectionHelper.GetConnection())
             {

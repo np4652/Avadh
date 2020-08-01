@@ -45,72 +45,7 @@ namespace Awadh.DAL
 
 
 
-        public List<Registration> GetAllProfileDetails(string RegId)
-        {
-            string uid = string.Empty;
-            string SqlString = string.Empty;
-            List<Registration> List = new List<Registration>();
-            try
-            {
-                if (RegId == "undefined" || RegId == null)
-                {
-                    SqlString = "select * from dbo.Users join dbo.UsersLogin on dbo.Users.RegId= dbo.UsersLogin.RegId  ORDER BY dbo.Users.RegId DESC";
-                }
-                else
-                {
-                    SqlString = "select * from dbo.Users join dbo.UsersLogin on dbo.Users.RegId= dbo.UsersLogin.RegId where dbo.UsersLogin.RegId=@RegId;";
-                }
-                using (var con = connectionHelper.GetConnection())
-                {
-                    List = con.Query<Registration>(SqlString, new
-                    {
-                        RegId
-                    }).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return List;
-        }
-
-
-        public List<Registration> GetProfiledetails(int RegId)
-        {
-            List<Registration> List = new List<Registration>();
-            try
-            {
-                if (RegId > 0)
-                {
-                    string SqlString = "select * from dbo.Users join dbo.UsersLogin on dbo.Users.RegId= dbo.UsersLogin.RegId where dbo.UsersLogin.RegId='" + RegId + "' ;";
-                    SqlDataAdapter sda = new SqlDataAdapter(SqlString, con);
-                    DataTable dt = new DataTable();
-                    con.Open();
-                    sda.Fill(dt);
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        Registration details = new Registration();
-                        details.Class = dt.Rows[i]["Class"].ToString();
-                        details.Name = dt.Rows[i]["Name"].ToString();
-                        details.Address = dt.Rows[i]["Address"].ToString();
-                        details.Father_Name = dt.Rows[i]["Father_Name"].ToString();
-                        details.Mother_Name = dt.Rows[i]["Mother_Name"].ToString();
-                        details.Phone = dt.Rows[i]["Phone"].ToString();
-                        details.Password = dt.Rows[i]["Password"].ToString();
-                        details.Role = dt.Rows[i]["Role"].ToString();
-                        details.RegId = Convert.ToInt32(dt.Rows[i]["RegId"]);
-                        List.Add(details);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return List;
-        }
-
+        
         public Response login(string RegId, string PSD)
         {
             var res = new Response

@@ -36,9 +36,23 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+.loading {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
 
-.modal{
-    width:100%;
+
+.modal {
+    width: 100%;
 }
 .modal-content {
     position: initial !important;
@@ -65,4 +79,8 @@ h3.modal-title {
 
 .modal-lg {
     width: 75% !important;
+}
+
+.mr-1{
+    margin-right:1em!important;
 }

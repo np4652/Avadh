@@ -1,19 +1,16 @@
 ﻿"use strict";
 var page = '/';
-var isValidDate = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
-
-var ResponseStatus = { SUCCESS: 1, FAILED: 2, ACCEPT: 3, REJECT: 4, INCOMPLETE: 5, UNAUTHORISED: 6, UNDERSCREENING: 7, SERVICEDOWN: 8 };
-
 var btnLdr = {
     removeClass: '',
     addClass: '',
     Start: function (btn, btnText) {
         var dataLoadingClass = "<i class='fas fa-circle-notch fa-spin'></i> " + btnText;
-        btn.attr('original-text', btn.html());
+        btn.attr('original-text', btn.html()).attr('disabled', 'disabled');
         btn.html(dataLoadingClass);
         btn.removeClass(this.removeClass).addClass(this.addClass);
     },
     Stop: function (btn) {
+        btn.removeAttr('disabled');
         btn.html(btn.attr('original-text'));
         btn.removeClass(this.addClass).addClass(this.removeClass);
     }
@@ -122,7 +119,7 @@ var getQueryString = function (field, url) {
 
 
 var preloader = {
-    load: () => $('body').append('<div class="loading">Loading&#8230;</div>'),
+    load: () => $('body').append('<div class="loading"><i class="fa fa-refresh fa-spin mr-1"></i> Loading&#8230;</div>'),
     remove: () => $('.loading').remove()
 };
 
@@ -186,25 +183,17 @@ var loginWin = () => {
                     PSD: $('#Password').val()
                 };
                 $.post('/home/_Login', params).done(response => {
-                    Swal.fire({
-                        title: response.StatusCode === 1 ? 'success' : 'error',
-                        titleText: response.StatusCode === 1 ? 'Success!' : "Error",
-                        text: response.Status,
-                        icon: response.StatusCode === 1 ? 'success' : 'error',
-                        confirmButtonText: '',
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-right',
-                        timer: 3000,
-                        timerProgressBar: true
+                    Q.alert({
+                        response: response,
                     });
                     if (response.StatusCode === 1)
                         window.location.href = response.CommonString;
-                });
+                }).fail(xhr => Q.alert({ xhr: xhr }));
             }
         })
     });
 }
+
 
 
 var RegistrationWin = () => {
@@ -213,138 +202,127 @@ var RegistrationWin = () => {
         mdlA.title = "Registration";
         mdlA.content = result;
         mdlA.modal(mdlA.size.default);
+        $('input[name="PassportImage"]').change(e => {
+            let size = parseFloat($(e.currentTarget)[0].files[0].size / 1024).toFixed(2);
+            if (size > 1000) {
+                $(e.currentTarget).parents('.form-group').find('label').append('<small class="text-danger">Please select image less than or equal to 1 mb</small>')
+                $(e.currentTarget).val('');
+            }
+        });
+
         $('#btnRegistration').click(() => {
             btnLdr.Start($('#btnRegistration'), 'Requesting......');
             if ($.FormValidation.IsFormValid()) {
-                let params = {
-                    Name: $('input[name="Name"]').val(),
-                    Father_Name: $('input[name="FatherName"]').val(),
-                    Mother_Name: $('input[name="MotherName"]').val(),
-                    Phone: $('input[name="ContactNo"]').val(),
-                    Email: $('input[name="Email"]').val(),
-                    Class: $('select[name="Class"]').val(),
-                    Password: $('input[name="Password"]').val(),
-                    DOB: $('input[name="Dob"]').val(),
-                    Role: $('select[name="Role"]').val()
-                };
-
-                if (!validateEmail(params.Email)) {
+                let Email = $('input[name="Email"]').val();
+                if (!validateEmail(Email)) {
                     $('input[name="Email"]').before('<small class="mendetory">Please Fill Valid Email Id</small>').focus();
                     btnLdr.Stop($('#btnRegistration'));
                     return false;
                 }
-                $.post('/home/_Registration', params)
-                    .done(response => {
-                        if (response.StatusCode === 1) {
-                            var data = new FormData();
-                            var files = $('input[name="PassportImage"]').get(0).files;
-                            if (files.length > 0) {
-                                data.append("file", files[0]);
-                            }
-                            data.append("newname", response.CommonInt);
-                            $.ajax({
-                                url: '/home/Upload',
-                                type: "POST",
-                                processData: false,
-                                contentType: false,
-                                data: data,
-                                success: function (response) {
-                                    btnLdr.Stop($('#btnRegistration'));
-                                    Swal.fire({
-                                        title: 'success',
-                                        titleText: 'Success!',
-                                        text: 'Your request is saved successfully.We will response soon',
-                                        icon: 'success',
-                                        confirmButtonText: '',
-                                        showConfirmButton: false,
-                                        toast: true,
-                                        position: 'top-right',
-                                        timer: 3000,
-                                        timerProgressBar: true
-                                    });
-                                    mdlA.dispose();
-                                },
-                                error: function (xhr) {
-                                    btnLdr.Stop($('#btnRegistration'));
-                                    Swal.fire({
-                                        title: 'error',
-                                        titleText: 'Error!',
-                                        text: xhr.status === 0 ? 'Internet Connection was broken' : xhr.status === 404 ? 'Requested action not found' : 'internal Server Error',
-                                        icon: 'error',
-                                        confirmButtonText: '',
-                                        showConfirmButton: false,
-                                        toast: true,
-                                        position: 'top-right',
-                                        timer: 3000,
-                                        timerProgressBar: true
-                                    });
-                                }
-                            });
-                        }
-                        else {
-                            if (response.Catch !== "") {
-                                console.log(response.Catch)
-                            }
-                            Swal.fire({
-                                title: 'error',
-                                titleText: 'Error!',
-                                text: 'Technical Issue',
-                                icon: 'error',
-                                confirmButtonText: '',
-                                showConfirmButton: false,
-                                toast: true,
-                                position: 'top-right',
-                                timer: 3000,
-                                timerProgressBar: true
-                            });
-                            btnLdr.Stop($('#btnRegistration'));
-                        }
-                    });
+                var data = new FormData();
+                var files = $('input[name="PassportImage"]').get(0).files;
+                if (files.length > 0) {
+                    data.append("file", files[0]);
+                }
+                data.append("Name", $('input[name="Name"]').val());
+                data.append("Father_Name", $('input[name="FatherName"]').val());
+                data.append("Mother_Name", $('input[name="MotherName"]').val());
+                data.append("Phone", $('input[name="ContactNo"]').val());
+                data.append("Email", $('input[name="Email"]').val());
+                data.append("Class", $('select[name="Class"]').val());
+                data.append("Password", $('input[name="Password"]').val());
+                data.append("DOB", $('input[name="Dob"]').val());
+                data.append("Role", $('select[name="Role"]').val());
+                $.ajax({
+                    url: '/home/_Registration',
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    success: function (response) {
+                        btnLdr.Stop($('#btnRegistration'));
+                        Q.alert({ response: response });
+                        mdlA.dispose();
+                    },
+                    error: function (xhr) {
+                        btnLdr.Stop($('#btnRegistration'));
+                        Q.alert({ xhr: xhr })
+                    }
+                });
             }
             else {
                 btnLdr.Stop($('#btnRegistration'));
             }
         })
-    });
+    }).fail(xhr => Q.alert({ xhr: xhr }));
 }
-
 
 var ChangePassWin = () => {
     preloader.load();
-    $.post('/common/ChangePassword').done(result => {
-        mdlA.id = "changePassWindow";
-        mdlA.title = "Change Password";
-        mdlA.content = result;
-        mdlA.modal(mdlA.size.default);
-        $('#btnChangePass').click(() => {
-            if ($.FormValidation.IsFormValid()) {
-                let params = {
-                    currentPass: $('#currentPass').val(),
-                    newPass: $('#newPass').val(),
-                    rePass: $('#rePass').val()
-                };
-                if (params.newPass !== params.rePass) {
-                    $('#rePass').after('<label class="text-danger text-monospace">* Password not matched.Please Reenter password</label>');
-                    return false
-                }
-                $.post('/Common/ChangeUserPassword', params).done(response => {
-                    Swal.fire({
-                        title: response.StatusCode === 1 ? 'success' : 'error',
-                        titleText: response.StatusCode === 1 ? 'Success!' : "Error",
-                        text: response.Status,
-                        icon: response.StatusCode === 1 ? 'success' : 'error',
-                        confirmButtonText: '',
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-right',
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                    if (response.StatusCode === 1) {
-                        mdlA.dispose();
+    $.post('/common/ChangePassword')
+        .done(result => {
+            mdlA.id = "changePassWindow";
+            mdlA.title = "Change Password";
+            mdlA.content = result;
+            mdlA.modal(mdlA.size.default);
+            $('#btnChangePass').click(() => {
+                preloader.load();
+                if ($.FormValidation.IsFormValid()) {
+                    let params = {
+                        currentPass: $('#currentPass').val(),
+                        newPass: $('#newPass').val(),
+                        rePass: $('#rePass').val()
+                    };
+                    if (params.newPass !== params.rePass) {
+                        $('#rePass').after('<label class="text-danger text-monospace">* Password not matched.Please Reenter password</label>');
+                        return false
                     }
-                }).always(() => preloader.remove());
-            }
-        })
-    });
+                    $.post('/Common/ChangeUserPassword', params).done(response => {
+                        Q.alert({ response: response });
+                        if (response.StatusCode === 1) {
+                            mdlA.dispose();
+                        }
+                    }).fail(xhr => Q.alert({ xhr: xhr })).always(() => preloader.remove());
+                }
+            })
+        }).always(() => preloader.remove());
 }
+
+var Q;
+(function (Q) {
+    Q.isValidDate = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+    Q.ResponseStatus = { SUCCESS: 1, FAILED: 2, ACCEPT: 3, REJECT: 4, INCOMPLETE: 5, UNAUTHORISED: 6, UNDERSCREENING: 7, SERVICEDOWN: 8 };
+    function alert(Options = {}) {
+        if (Options.response !== undefined && Options.response.StatusCode !== undefined) {
+            Swal.fire({
+                title: Options.response.StatusCode === 1 ? 'success' : 'error',
+                titleText: Options.response.StatusCode === 1 ? 'Success!' : "Error",
+                text: Options.response.Status,
+                icon: Options.response.StatusCode === 1 ? 'success' : 'error',
+                confirmButtonText: '',
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-right',
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+
+        if (Options.xhr !== undefined && Options.xhr.status !== undefined) {
+            Swal.fire({
+                title: 'error',
+                titleText: "Oops",
+                text: Options.xhr.status === 0 ? 'Internet was broken' : Options.xhr.status === 404 ? 'Requested path not found' : 'Server error',
+                icon: 'error',
+                confirmButtonText: '',
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-right',
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+    }
+    Q.alert = alert;
+})(Q || (Q = {}));
+
