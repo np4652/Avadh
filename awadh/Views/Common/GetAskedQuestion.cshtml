@@ -121,21 +121,7 @@
                     mdlA.title = "Reply";
                     mdlA.content = result;
                     mdlA.modal(mdlA.size.large, () => $('#replyWindow').remove());
-                }).fail(xhr => {
-                    Swal.fire({
-                        title: 'error',
-                        titleText: 'Error!',
-                        text: 'Technical Issue',
-                        icon: 'error',
-                        confirmButtonText: '',
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-right',
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-
-                })
+                }).fail(xhr => Q.alert({ xhr: xhr }))
         }
 
     </script>

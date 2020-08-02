@@ -12,12 +12,19 @@ namespace Awadh.Controllers
     public class CommonController : Controller
     {
         
-        private readonly ICommon commonML = new CommonDal();
+        private readonly ICommon commonML = new CommonML();
+
+        [HttpPost]
+        public JsonResult Dashboard()
+        {
+            var data = commonML.Dashboard();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult AskedQuestion()
         {
             var subjects = commonML.GetSubjectMaster();
             return View(subjects);
-        }
+        }        
 
         [HttpPost]
         public ActionResult ChangePassword()

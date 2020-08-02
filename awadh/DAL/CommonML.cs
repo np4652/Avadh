@@ -11,9 +11,44 @@ using System.Web;
 
 namespace Awadh.DAL
 {
-    public class CommonDal : ICommon
+    public class CommonML : ICommon
     {
+        public Response login(string RegId, string PSD)
+        {
+            var response = new Response
+            {
+                Status = "Authentication Error"
+            };
+            try
+            {
+                List<Registration> List = new List<Registration>();
+                string SqlString = "select 1 statusCode,'Authentication Success' Status dbo.Users.Role,dbo.Users.Class from dbo.Users join dbo.UsersLogin on dbo.Users.RegId = dbo.UsersLogin.RegId where dbo.UsersLogin.RegId = '" + RegId + "' and dbo.UsersLogin.Password = '" + PSD + "' and dbo.Users.Status='Active';";
+                using (var Con = connectionHelper.GetConnection())
+                {
+                    var loginData = Con.Query<LoginData>("Proc_Login",
+                        new
+                        {
+                            RegId,
+                            PSD
+                        }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    response.StatusCode = loginData.StatusCode;
+                    response.Status = loginData.Status;
+                    if(loginData.StatusCode==1)
+                        HttpContext.Current.Session[SessionKey.Login] = loginData;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Catch = ex.Message;
+            }
+            return response;
+        }
 
+        public Dashboard Dashboard()
+        {
+            var respnse = new Dashboard();
+            return respnse;
+        }
         public Response RegistrationPer(Registration dts)
         {
             var response = new Response

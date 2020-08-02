@@ -9,7 +9,6 @@ namespace Awadh.AppCode.Interfaces
 {
     interface ITeacher
     {
-        Dashboard Dashboard();
         Response ChangeStatus(string Status, string RegId);
         Response MaterialUploadDetail(MaterialUploadDetail param);
     }

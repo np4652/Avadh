@@ -13,18 +13,11 @@ namespace Awadh.Controllers
     public class TeacherController :Controller
     {
         private readonly ITeacher teacherML = new TeacherML();
-        private readonly ICommon commonML = new CommonDal();
+        private readonly ICommon commonML = new CommonML();
         public ActionResult Index()
         {
             return View();
-        }
-
-        [HttpPost]
-        public JsonResult Dashboard()
-        {
-            var data = teacherML.Dashboard();
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
+        }       
 
         public ActionResult Uploads()
         {

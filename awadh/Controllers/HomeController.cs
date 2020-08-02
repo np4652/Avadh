@@ -13,8 +13,7 @@ namespace Awadh.Controllers
 {
     public class HomeController : Controller
     {
-        ProfileDal dal = new ProfileDal();
-        private readonly ICommon commonML = new CommonDal();
+        private readonly ICommon commonML = new CommonML();
         public ActionResult Index()
         {
             return View();
@@ -29,7 +28,7 @@ namespace Awadh.Controllers
         [HttpPost]
         public JsonResult _Login(string RegId, string PSD)
         {
-            var users = (Response)dal.login(RegId, PSD);
+            var users = commonML.login(RegId, PSD);
             if (users != null && users.StatusCode==1)
             {
                 var login = (LoginData)Session[SessionKey.Login];

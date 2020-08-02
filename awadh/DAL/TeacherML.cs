@@ -34,12 +34,6 @@ namespace Awadh.DAL
             return response;
         }
 
-        public Dashboard Dashboard()
-        {
-            var respnse = new Dashboard();
-            return respnse;
-        }
-
         public Response MaterialUploadDetail(MaterialUploadDetail param)
         {
             Response response = new Response

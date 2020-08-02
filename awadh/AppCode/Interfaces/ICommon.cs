@@ -6,6 +6,8 @@ namespace Awadh.AppCode.Interfaces
 {
     interface ICommon
     {
+        Response login(string RegId, string PSD);
+        Dashboard Dashboard();
         Response RegistrationPer(Registration dts);
         IEnumerable<Registration> GetProfiledetails(int RegId);
         IEnumerable<Registration> GetAllProfileDetails(string RegId);

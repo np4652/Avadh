@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿
 namespace Awadh.Models
 {
-    public class LoginData
+    public class LoginData : Response
     {
         public int LoginID { get; set; }
         public int RoleID { get; set; }
         public string Role { get; set; }
-        public string Class{ get; set; }
+        public string Class { get; set; }
     }
 }

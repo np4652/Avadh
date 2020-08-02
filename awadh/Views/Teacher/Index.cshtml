@@ -38,13 +38,7 @@
 @section scripts{
     <script>
         (() => {
-            var loadDashboard = () => {
-                $.post('/teacher/dashboard').done(result => {
-                    $('#countNewQuestion').html(result.NewQuestion);
-                    $('#countStudents').html(result.Students);
-                });
-            };
-            loadDashboard();
+            Q.dashBoard();
         })();
     </script>
 }

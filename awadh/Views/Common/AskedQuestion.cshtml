@@ -150,7 +150,6 @@
 
 
         $('#btnSave').click(() => {
-            //let descr = tinyMCE.get('txtQuestion').getContent();
             let param = {
                 QuestionID: getQueryString("id") != undefined ? getQueryString("id") : 0,
                 SubjectID: $('#ddlSubject').val(),
@@ -170,33 +169,9 @@
                         $('#ddlSubject')[0].selectedIndex = 0;
                         sessionStorage.clear();
                     }
-                    Swal.fire({
-                        title: 'success',
-                        titleText: 'Success!',
-                        text: 'Successfully Addedd',
-                        icon: 'success',
-                        confirmButtonText: '',
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-right',
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
+                    Q.alert({ response: result })
                 },
-                error: xhr => {
-                    Swal.fire({
-                        title: 'error',
-                        titleText: 'Error!',
-                        text: xhr.status === 0 ? 'Internet Connection was broken' : xhr.status === 404 ? 'Requested action not found' : 'internal Server Error',
-                        icon: 'error',
-                        confirmButtonText: '',
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-right',
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                }
+                error: xhr => Q.alert({ xhr: xhr })
             });
         });
     </script>
