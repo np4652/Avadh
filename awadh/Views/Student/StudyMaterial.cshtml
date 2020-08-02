@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Study Material";
+    Layout = "~/views/Shared/_LayoutStudent.cshtml";
+}
+
+@section cardHeader{
+    <h4>Study Material</h4>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h4>Maths</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12 pt-1" id="divMath">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h4>English</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12 pt-1" id="divEnglish"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h4>Science</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12 pt-1" id="divScience">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h4>Hindi</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12 pt-1" id="divHindi"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        var loadMathsMaterial = () => {
+            Q.uploadedMaterial(1).then(() => {
+                $('#divMath').append(Q.result.map(x => `<div class="form-group"><a href="${x.URL}" target="_blank"><span><h4><i class="fa ${x.IsLink ? 'fa-file-video-o' : 'fa-file-image-o'}"></i> ${x.Title}</h4></span><span><small>${x.Description}</small></span></a></div>`));
+            });
+        };
+        var loadHindiMaterial = () => {
+            Q.uploadedMaterial(2).then(() => {
+                $('#divHindi').append(Q.result.map(x => `<div class="form-group"><a href="${x.URL}" target="_blank"><span><h4><i class="fa ${x.IsLink ? 'fa-file-video-o' : 'fa-file-image-o'}"></i> ${x.Title}</h4></span><span><small>${x.Description}</small></span></a></div>`));
+            });
+        };
+        var loadScienceMaterial = () => {
+            Q.uploadedMaterial(3).then(() => {
+                $('#divScience').append(Q.result.map(x => `<div class="form-group"><a href="${x.URL}" target="_blank"><span><h4><i class="fa ${x.IsLink ? 'fa-file-video-o' : 'fa-file-image-o'}"></i> ${x.Title}</h4></span><span><small>${x.Description}</small></span></a></div>`));
+            });
+        };
+
+        var loadEnglishMaterial = () => {
+            Q.uploadedMaterial(4).then(() => {
+                $('#divEnglish').append(Q.result.map(x => `<div class="form-group"><a href="${x.URL}" target="_blank"><span><h4><i class="fa ${x.IsLink ? 'fa-file-video-o' : 'fa-file-image-o'}"></i> ${x.Title}</h4></span><span><small>${x.Description}</small></span></a></div>`));
+            });
+        };
+        loadMathsMaterial();
+        loadHindiMaterial();
+        loadScienceMaterial();
+        loadEnglishMaterial();
+    </script>
+}

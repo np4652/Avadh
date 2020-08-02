@@ -1,10 +1,9 @@
 ﻿using Awadh.AppCode.Interfaces;
 using Awadh.DAL;
 using Awadh.Models;
-using Newtonsoft.Json;
+using System;
 using System.IO;
-using System.Linq;
-using System.Web;
+using System.Text;
 using System.Web.Mvc;
 
 namespace Awadh.Controllers
@@ -13,8 +12,8 @@ namespace Awadh.Controllers
     [Authrization("Admin","Teacher")]
     public class TeacherController :Controller
     {
-        StudentRegistrationDal dal = new StudentRegistrationDal();
         private readonly ITeacher teacherML = new TeacherML();
+        private readonly ICommon commonML = new CommonDal();
         public ActionResult Index()
         {
             return View();
@@ -29,7 +28,8 @@ namespace Awadh.Controllers
 
         public ActionResult Uploads()
         {
-            return View();
+            var subjectList = commonML.GetSubjectMaster();
+            return View(subjectList);
         }
 
         [HttpPost]
@@ -39,28 +39,34 @@ namespace Awadh.Controllers
             return response;
         }
 
-        public ContentResult Upload(string newname)
+        [HttpPost]
+        public JsonResult UploadStudyMaterial(MaterialUploadDetail param)
         {
-            string RecentGenerateID = newname.ToString();
-            string path = Server.MapPath("~/Content/PDF/");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
+            if(!param.IsLink){
+                if (param.Files != null)
+                {
+                    string path = Server.MapPath("~/Content/PDF/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    StringBuilder sb = new StringBuilder(path);
+                    StringBuilder fileName = new StringBuilder();
+                    fileName.Append(param.Class);
+                    fileName.Append("_");
+                    fileName.Append(param.SubjectID);
+                    fileName.Append("_");
+                    fileName.Append(DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss").Replace("-", "").Replace(" ", "").Replace(":", ""));
+                    fileName.Append(Path.GetExtension(param.Files.FileName));
+                    sb.Append(fileName);
+                    param.Files.SaveAs(sb.ToString());
+                    StringBuilder folderPath = new StringBuilder("/Content/PDF/");
+                    folderPath.Append(fileName);
+                    param.URL = folderPath.ToString();
+                }
             }
-            HttpPostedFileBase postedFile = Request.Files[0];
-            postedFile.SaveAs(path + RecentGenerateID.ToString() + System.IO.Path.GetExtension(postedFile.FileName));
-
-            string imagepath = "/Content/PDF/" + newname;
-            return Content(imagepath);
-        }
-
-
-
-        public string VedioDetails(string Comm)
-        {
-            Models.ProfileData REG = JsonConvert.DeserializeObject<Models.ProfileData>(Comm);
-            var Val = dal.VideoDetails(REG);
-            return Val;
+            var response = teacherML.MaterialUploadDetail(param);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UsersDetail()

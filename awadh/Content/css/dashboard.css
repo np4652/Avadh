@@ -1,0 +1,28 @@
+﻿.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: unset;
+    background-clip: unset;
+    border: unset;
+    border-radius: unset;
+    box-shadow: unset;
+    /*box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);*/
+}
+
+.card-primary.card-outline {
+    border-top: unset;
+}
+
+.card-header {
+    background-color: none;
+    border-bottom: unset;
+    position: relative;
+    padding: .75rem 1.25rem;
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
+}

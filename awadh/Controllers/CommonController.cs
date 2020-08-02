@@ -94,5 +94,11 @@ namespace Awadh.Controllers
             var subjectList = commonML.GetSubjectMaster();
             return Json(subjectList, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetuploadedMaterial(int SubjectID)
+        {
+            var list = commonML.GetuploadedMaterial(SubjectID);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

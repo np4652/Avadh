@@ -39,5 +39,36 @@ namespace Awadh.DAL
             var respnse = new Dashboard();
             return respnse;
         }
+
+        public Response MaterialUploadDetail(MaterialUploadDetail param)
+        {
+            Response response = new Response
+            {
+                StatusCode = -1,
+                Status = "Technical Error"
+            };
+            try
+            {
+                using (var con = connectionHelper.GetConnection())
+                {
+                    string Query = @"insert into  [SchoolErp].[dbo].[MaterialUploadDetail] ([Class],[Title],[URL],[Subject],[Description],[IsLink]) 
+                                    values(@Class,@Title,@URL,@SubjectID,@Description,@IsLink);select 1 statuscode ,'Successfully Done'status ";
+                    response = con.Query<Response>(Query, new
+                    {
+                        param.Class,
+                        param.SubjectID,
+                        param.Title,
+                        param.URL,
+                        param.Description,
+                        param.IsLink
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Catch = ex.Message;
+            }
+            return response;
+        }
     }
 }

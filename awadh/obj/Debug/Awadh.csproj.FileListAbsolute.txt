@@ -367,8 +367,8 @@ C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\bin\System.Web.Razor.xml
 C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\bin\System.Web.WebPages.xml
 C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\bin\System.Web.WebPages.Deployment.xml
 C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\bin\System.Web.WebPages.Razor.xml
-C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\obj\Debug\Awadh.csprojAssemblyReference.cache
 C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\obj\Debug\Awadh.csproj.CoreCompileInputs.cache
 C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\obj\Debug\Awadh.csproj.CopyComplete
 C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\obj\Debug\Awadh.dll
 C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\obj\Debug\Awadh.pdb
+C:\Users\LENOVO\Desktop\Projects\awadh\Awadh\obj\Debug\Awadh.csprojAssemblyReference.cache

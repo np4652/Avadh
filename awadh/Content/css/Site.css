@@ -84,3 +84,6 @@ h3.modal-title {
 .mr-1{
     margin-right:1em!important;
 }
+.d-none{
+    display:none!important;
+}

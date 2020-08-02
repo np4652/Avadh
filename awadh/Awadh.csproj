@@ -153,7 +153,6 @@
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\CommonDal.cs" />
     <Compile Include="DAL\ProfileDal.cs" />
-    <Compile Include="DAL\StudentRegistrationDal.cs" />
     <Compile Include="DAL\TeacherML.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -162,6 +161,7 @@
     <Compile Include="Models\AskedQuestion.cs" />
     <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\LoginData.cs" />
+    <Compile Include="Models\MaterialUploadDetail.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\Response.cs" />
@@ -181,6 +181,7 @@
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\dashboard.css" />
     <Content Include="Content\css\datatables.css" />
     <Content Include="Content\css\datepick.css" />
     <Content Include="Content\css\flaticon.css" />
@@ -349,6 +350,7 @@
     <Content Include="Views\Common\ReplyToQuestion.cshtml" />
     <Content Include="Views\Teacher\Uploads.cshtml" />
     <Content Include="Views\Common\ChangePassword.cshtml" />
+    <Content Include="Views\Student\StudyMaterial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

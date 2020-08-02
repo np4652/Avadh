@@ -16,5 +16,6 @@ namespace Awadh.AppCode.Interfaces
         IEnumerable<SubjectMasterModel> GetSubjectMaster();
         Response ReplyToQuestion(AskedQuestion param);
         Response ChangePassword(string currentPassword, string newPassword);
+        IEnumerable<MaterialUploadDetail> GetuploadedMaterial(int subjectId);
     }
 }

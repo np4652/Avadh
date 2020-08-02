@@ -188,6 +188,28 @@ namespace Awadh.DAL
             }
         }
 
+        public IEnumerable<MaterialUploadDetail> GetuploadedMaterial(int subjectId)
+        {
+            var List = new List<MaterialUploadDetail>();
+            try
+            {
+                using (var con = connectionHelper.GetConnection())
+                {
+                    List = con.Query<MaterialUploadDetail>("select * from MaterialUploadDetail where Subject=@SubjectId",
+                        new
+                        {
+                            subjectId
+                        }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return List;
+        }
+
+
         public IEnumerable<AskedQuestion> GetAskedQuestion()
         {
             var List = new List<AskedQuestion>();

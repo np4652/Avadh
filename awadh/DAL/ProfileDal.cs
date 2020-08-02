@@ -1,11 +1,9 @@
 ﻿using Awadh.Models;
-using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
 
 namespace Awadh.DAL
@@ -13,38 +11,6 @@ namespace Awadh.DAL
     public class ProfileDal
     {
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
-        SqlCommand cmd = new SqlCommand();
-
-
-        public string loginsummery(string dts)
-        {
-            string ss = string.Empty;
-            try
-            {
-                cmd.Connection = con;
-                DateTime now = DateTime.Now;
-                string asString = now.ToString("dd MMMM yyyy hh:mm:ss tt");
-
-                cmd.CommandText = @"insert into  [SchoolErp].[dbo].[SummeryDetails](
-                                                                              [UserId]
-                                                                              ,[loginTime]
-      
-                                                                               )  values('" + dts.ToString() + "','" + asString + "') ";
-                con.Open();
-                int i = cmd.ExecuteNonQuery();
-                ss = i == 1 ? "Successfully done" : "Technical Issue Occurred";
-                con.Close();
-                cmd.Dispose();
-            }
-            catch (Exception ex)
-            {
-                ss = ex.Message;
-            }
-            return ss;
-        }
-
-
-
         
         public Response login(string RegId, string PSD)
         {
@@ -78,135 +44,6 @@ namespace Awadh.DAL
                 res.Catch = ex.Message;
             }
             return res;
-        }
-
-        public List<ProfileData> GetSubjectMaths(string cls, string sub)
-        {
-            List<ProfileData> List = new List<ProfileData>();
-            try
-            {
-                using (var con = connectionHelper.GetConnection())
-                {
-                    List = con.Query<ProfileData>("select * from VedioDetail where vedioForClass = @cls and Subject = @sub", new
-                    {
-                        cls,
-                        sub = 1
-                    }).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return List;
-
-
-        }
-        public List<ProfileData> Getsubjectenglishvedio(string cls, string sub)
-        {
-            //string qry = "";
-
-            try
-            {
-                List<ProfileData> List = new List<ProfileData>();
-                string SqlString = "select * from VedioDetail where vedioForClass ='" + cls + "' and Subject =4";
-                SqlDataAdapter sda = new SqlDataAdapter(SqlString, con);
-                DataTable dt = new DataTable();
-                con.Open();
-                sda.Fill(dt);
-                //  DataTable dt = du.getData(qry);
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    ProfileData details = new ProfileData();
-                    details.VedioId = Convert.ToInt64(dt.Rows[i]["VedioId"]);
-
-                    details.VedioName = dt.Rows[i]["VedioName"].ToString();
-
-                    details.VedioForClass = dt.Rows[i]["VedioForClass"].ToString();
-                    details.VedioTittle = dt.Rows[i]["VedioTittle"].ToString();
-                    details.VedioUrl = dt.Rows[i]["VedioUrl"].ToString();
-
-                    List.Add(details);
-                }
-                return List;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
-
-        }
-        public List<ProfileData> Getsubjectsciencevedio(string cls, string sub)
-        {
-            //string qry = "";
-
-            try
-            {
-                List<ProfileData> List = new List<ProfileData>();
-                string SqlString = "select * from VedioDetail where vedioForClass ='" + cls + "' and Subject =3";
-                SqlDataAdapter sda = new SqlDataAdapter(SqlString, con);
-                DataTable dt = new DataTable();
-                con.Open();
-                sda.Fill(dt);
-                //  DataTable dt = du.getData(qry);
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    ProfileData details = new ProfileData();
-                    details.VedioId = Convert.ToInt64(dt.Rows[i]["VedioId"]);
-
-                    details.VedioName = dt.Rows[i]["VedioName"].ToString();
-
-                    details.VedioForClass = dt.Rows[i]["VedioForClass"].ToString();
-                    details.VedioTittle = dt.Rows[i]["VedioTittle"].ToString();
-                    details.VedioUrl = dt.Rows[i]["VedioUrl"].ToString();
-
-                    List.Add(details);
-                }
-                return List;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
-
-        }
-
-        public List<ProfileData> Getsubjecthindivedio(string cls, string sub)
-        {
-            //string qry = "";
-
-            try
-            {
-                List<ProfileData> List = new List<ProfileData>();
-
-
-                string SqlString = "select * from VedioDetail where vedioForClass='" + cls + "' and Subject =2";
-                SqlDataAdapter sda = new SqlDataAdapter(SqlString, con);
-                DataTable dt = new DataTable();
-                con.Open();
-                sda.Fill(dt);
-                //  DataTable dt = du.getData(qry);
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    ProfileData details = new ProfileData();
-                    details.VedioId = Convert.ToInt64(dt.Rows[i]["VedioId"]);
-
-                    details.VedioName = dt.Rows[i]["VedioName"].ToString();
-
-                    details.VedioForClass = dt.Rows[i]["VedioForClass"].ToString();
-                    details.VedioTittle = dt.Rows[i]["VedioTittle"].ToString();
-                    details.VedioUrl = dt.Rows[i]["VedioUrl"].ToString();
-
-                    List.Add(details);
-                }
-                return List;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
         }
     }
 }
