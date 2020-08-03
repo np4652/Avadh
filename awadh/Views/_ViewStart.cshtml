@@ -1,3 +1,11 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var loginData = (Awadh.Models.LoginData)Session[Awadh.Models.SessionKey.Login];
+    if (loginData == null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    }
 }

@@ -87,3 +87,8 @@ h3.modal-title {
 .d-none{
     display:none!important;
 }
+
+.d-block {
+    display: block!important;
+    padding-bottom:1px;
+}

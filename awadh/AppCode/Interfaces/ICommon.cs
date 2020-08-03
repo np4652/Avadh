@@ -19,5 +19,6 @@ namespace Awadh.AppCode.Interfaces
         Response ReplyToQuestion(AskedQuestion param);
         Response ChangePassword(string currentPassword, string newPassword);
         IEnumerable<MaterialUploadDetail> GetuploadedMaterial(int subjectId);
+        AskedQuestion Solution(int QuestionID);
     }
 }

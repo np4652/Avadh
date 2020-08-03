@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Awadh.Models.AskedQuestion>
 @{
+    var loginData = (Awadh.Models.LoginData)Session[Awadh.Models.SessionKey.Login];
+    var Role = loginData.Role;
     ViewBag.Title = "GetAskedQuestion";
-    Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
 }
 
 @section cardHeader{
@@ -21,20 +22,27 @@
                         <th>Subject</th>
                         <th>Class</th>
                         <th>Posted By</th>
-                        <th>Reply</th>
+                        @if (Role == Awadh.Models.Roles.Teacher)
+                        {
+                            <th>Reply</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>@i</td>
-                            <td>@Html.Raw(item.Question)</td>
-                            <td>@item.SubjectName</td>
-                            <td>@item.Class</td>
-                            <td>@item.PostedBy</td>
+                    <tr>
+                        <td>@i</td>
+                        <td><a href="@Url.Action("Solution","Common",new { QuestionID=item.QuestionID})">@Html.Raw(item.Question)</a></td>
+                        <td>@item.SubjectName</td>
+                        <td>@item.Class</td>
+                        <td>@item.PostedBy</td>
+                        @if (Role == Awadh.Models.Roles.Teacher)
+                        {
                             <td><a href="javascript:fnReply(@item.QuestionID)"><i class="fa fa-edit"></i></a></td>
-                        </tr>
+                        }
+                        
+                    </tr>
                         i++;
                     }
                 </tbody>

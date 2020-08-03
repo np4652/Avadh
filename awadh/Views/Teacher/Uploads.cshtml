@@ -1,79 +1,77 @@
 ﻿@model IEnumerable<Awadh.Models.SubjectMasterModel>
 @{
     ViewBag.Title = "Uploads";
-    Layout = "~/views/Shared/_layoutTeacher.cshtml";
 }
 
 @section cardHeader{
     <h4>Uploads</h4>
 }
-<div ng-app="MyApp" ng-controller="FileUpload">
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="panel-group">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Save Vedio Url</div>
-                        <div class="panel-body">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Class:</label>
-                                    <select class="form-control" id="ddlClass" name="Class" required="required">
-                                        <option value="0">SELECT</option>
-                                        <option value="PreNur">Pre Nursery</option>
-                                        <option value="Nursery">Nursery</option>
-                                        <option value="KG">KG</option>
-                                        <option value="UKG">UKG</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Subject</label>
-                                    <select class="form-control" id="ddlSubject" name="Subject" required="required">
-                                        <option value="0">SELECT</option>
-                                        @if (Model != null && Model.Any())
+
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Save Vedio Url</div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Class:</label>
+                                <select class="form-control" id="ddlClass" name="Class" required="required">
+                                    <option value="0">SELECT</option>
+                                    <option value="PreNur">Pre Nursery</option>
+                                    <option value="Nursery">Nursery</option>
+                                    <option value="KG">KG</option>
+                                    <option value="UKG">UKG</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <select class="form-control" id="ddlSubject" name="Subject" required="required">
+                                    <option value="0">SELECT</option>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var item in Model)
                                         {
-                                            foreach (var item in Model)
-                                            {
-                                                <option value="@item.SubjectId">@item.SubjectName</option>
-                                            }
+                                            <option value="@item.SubjectId">@item.SubjectName</option>
                                         }
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Tittle</label>
-                                    <input type="text" class="form-control" id="txtTitle" name="Title" required="required">
-                                </div>
-                                <div class="form-group">
-                                    <label>Choose Type:</label>
-                                    <input type="radio" name="UploadType" id="rdLink" data-Is-Link="true"/>
-                                    <label for="rdLink">Link</label>
-                                    <input type="radio" name="UploadType" id="rdFile" data-Is-Link="false"/>
-                                    <label for="rdFile">File</label>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtLink" class="d-none">URL</label>
-                                    <input type="text" id="txtLink" class="form-control d-none" name="URL">
-                                    <label for="inputFile" class="d-none">Choose File:</label>
-                                    <input type="file" id="inputFile" class="form-control d-none" multiple="multiple" name="InputFile" />
-                                </div>
-                                <div class="form-group" name="Description">
-                                    <label>Description</label>
-                                    <textarea class="form-control" id="textDescription" name="Description"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-info" id="btnSave">Submit</button>
-                                </div>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Tittle</label>
+                                <input type="text" class="form-control" id="txtTitle" name="Title" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>Choose Type:</label>
+                                <input type="radio" name="UploadType" id="rdLink" data-Is-Link="true" />
+                                <label for="rdLink">Link</label>
+                                <input type="radio" name="UploadType" id="rdFile" data-Is-Link="false" />
+                                <label for="rdFile">File</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtLink" class="d-none">URL</label>
+                                <input type="text" id="txtLink" class="form-control d-none" name="URL">
+                                <label for="inputFile" class="d-none">Choose File:</label>
+                                <input type="file" id="inputFile" class="form-control d-none" multiple="multiple" name="InputFile" />
+                            </div>
+                            <div class="form-group" name="Description">
+                                <label>Description</label>
+                                <textarea class="form-control" id="textDescription" name="Description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-info" id="btnSave">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -82,6 +80,7 @@
         </div>
     </div>
 </div>
+
 @section scripts{
     <script>
         $('input[name="UploadType"]').unbind().click(e => {
@@ -143,5 +142,5 @@
         })
     </script>
 
-    
+
 }

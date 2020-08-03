@@ -355,5 +355,26 @@ namespace Awadh.DAL
                 return response;
             }
         }
+
+        public AskedQuestion Solution(int QuestionID)
+        {
+            using (var Connection = connectionHelper.GetConnection())
+            {
+                var response = new AskedQuestion();
+                try
+                {
+                    response = Connection.Query<AskedQuestion>("select * from AskedQuestion q  Left join  ReplyToQuestion r on q.QuestionID=r.QuestionID where  q.QuestionID=@QuestionID",
+                        new
+                        {
+                            QuestionID
+                        }, commandType: CommandType.Text).FirstOrDefault();
+                }
+                catch(Exception ex)
+                {
+
+                }
+                return response;
+            }
+        }
     }
 }

@@ -1,0 +1,23 @@
+﻿@model Awadh.Models.AskedQuestion
+@{
+    ViewBag.Title = "Solution";
+}
+
+@section cardHeader{
+    <h4>Solution</h4>
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label class="d-block"><strong>Question</strong></label>
+            @Html.Raw(Model.Question)
+        </div>
+        <div class="form-group">
+            @Html.Raw(Model.QuestionDescription)
+        </div>
+        <div class="form-group">
+            <label class="d-block"><strong>Solution</strong></label>
+            @Html.Raw(!string.IsNullOrEmpty(Model.Reply)? Model.Reply :"<h4 class=`text-danger`>No solution found yet.</h4>")
+        </div>
+    </div>
+</div>

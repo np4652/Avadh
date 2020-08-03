@@ -20,6 +20,12 @@ namespace Awadh.Controllers
             var data = commonML.Dashboard();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        public ViewResult Solution(int QuestionID)
+        {
+            var response = commonML.Solution(QuestionID);
+            return View(response);
+        }
         public ActionResult AskedQuestion()
         {
             var subjects = commonML.GetSubjectMaster();

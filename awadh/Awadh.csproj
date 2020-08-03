@@ -338,13 +338,15 @@
     <Content Include="Views\Home\Registration.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Teacher\UsersDetail.cshtml" />
-    <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
+    <Content Include="Views\Shared\_LayoutApp.cshtml" />
     <Content Include="Views\Common\AskedQuestion.cshtml" />
     <Content Include="Views\Common\GetAskedQuestion.cshtml" />
     <Content Include="Views\Common\ReplyToQuestion.cshtml" />
     <Content Include="Views\Teacher\Uploads.cshtml" />
     <Content Include="Views\Common\ChangePassword.cshtml" />
     <Content Include="Views\Student\StudyMaterial.cshtml" />
+    <Content Include="Views\Home\_LayoutTeacher.cshtml" />
+    <Content Include="Views\Common\Solution.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

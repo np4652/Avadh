@@ -1,11 +1,9 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/views/Shared/_LayoutTeacher.cshtml";
 }
 @section cardHeader{
     <h4>User Details</h4>
 }
-
 <div class="row">
     <div class="col-sm-12">
         <div class="form-group table-responsive">
@@ -24,8 +22,7 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
@@ -39,55 +36,28 @@
                     RegId: $(e.currentTarget).data().regId,
                     Status: $(e.currentTarget).is(':checked') ? 'Active' : 'Deactivate'
                 };
-                $.post('/Teacher/ChangeStatus', param).done(result => {
-                    Swal.fire({
-                        title: 'success',
-                        titleText: 'Success!',
-                        text: result.Status,
-                        icon: 'success',
-                        confirmButtonText: '',
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-right',
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                }).fail(xhr => {
-                    Swal.fire({
-                        title: 'error',
-                        titleText: 'Error!',
-                        text: xhr.status === 0 ? 'Internet Connection was broken' : xhr.status === 404 ? 'Requested action not found' : 'internal Server Error',
-                        icon: 'error',
-                        confirmButtonText: '',
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-right',
-                        timer: 3000,
-                        timerProgressBar: true
-                    });
-                })
+                $.post('/Teacher/ChangeStatus', param).done(result => Q.alert({ response: result })).fail(xhr => Q.alert({ xhr: xhr }));
             };
 
             var GetUsersList = () => {
                 preloader.load();
                 $.get('/Common/GetAllProfileDetails').done(result => {
-                    console.log(result)
-                    $('table tbody').empty().append(result.map((x,i) =>
+                    $('table tbody').empty().append(result.map((x, i) =>
                         `<tr>
-                            <td>${i+1}</td>
-                            <td>${x.RegId}</td>
-                            <td>${x.Name}</td>
-                            <td>${x.Father_Name}</td>
-                            <td>${x.Mother_Name}</td>
-                            <td>${x.Phone}</td>
-                            <td>${x.Class}</td>
-                            <td>${x.Password}</td>
-                            <td>${x.DOB}</td>
-                            <td><span class="switch switch-sm">
-                                    <input type="checkbox" class="switch changeStatus" data-Reg-Id=${x.RegId} id="isact_${x.RegId}" ${x.Status === 'Active' ? 'checked="checked"' :""}" />
-                                    <label for="isact_${x.RegId}">${x.Status}</label>
-                                </span></td>
-                        </tr>`
+                                        <td>${i + 1}</td>
+                                        <td>${x.RegId}</td>
+                                        <td>${x.Name}</td>
+                                        <td>${x.Father_Name}</td>
+                                        <td>${x.Mother_Name}</td>
+                                        <td>${x.Phone}</td>
+                                        <td>${x.Class}</td>
+                                        <td>${x.Password}</td>
+                                        <td>${x.DOB}</td>
+                                        <td><span class="switch switch-sm">
+                                                <input type="checkbox" class="switch changeStatus" data-Reg-Id=${x.RegId} id="isact_${x.RegId}" ${x.Status === 'Active' ? 'checked="checked"' : ""}" />
+                                                <label for="isact_${x.RegId}">${x.Status}</label>
+                                            </span></td>
+                                    </tr>`
                     ));
                     $('.changeStatus').unbind().click(e => changeStatus(e));
                 }).always(() => preloader.remove());
